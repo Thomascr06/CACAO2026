@@ -13,8 +13,9 @@ import abstraction.eqXRomu.produits.IProduit;
 public class Distributeur1Acteur implements IActeur {
 	
 	protected int cryptogramme;
-
+	Journal journal;
 	public Distributeur1Acteur() {
+		this.journal=new Journal("Journal equipe 7",this);
 	}
 	
 	public void initialiser() {
