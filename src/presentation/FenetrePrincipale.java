@@ -496,6 +496,3 @@ public class FenetrePrincipale extends JFrame {
 		LA_FENETRE_PRINCIPALE.setVisible(true);
 	}
 }
-
-
-
