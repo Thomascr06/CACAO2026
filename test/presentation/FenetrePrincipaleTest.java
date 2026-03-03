@@ -52,10 +52,5 @@ public class FenetrePrincipaleTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-
-		
 	}
-
-
 }
