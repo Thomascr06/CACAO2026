@@ -9,22 +9,26 @@ import abstraction.eqXRomu.filiere.Filiere;
 import abstraction.eqXRomu.filiere.IActeur;
 import abstraction.eqXRomu.general.Journal;
 import abstraction.eqXRomu.general.Variable;
+import abstraction.eqXRomu.general.VariablePrivee;
 import abstraction.eqXRomu.general.VariableReadOnly;
 import abstraction.eqXRomu.produits.Feve;
 import abstraction.eqXRomu.produits.IProduit;
 
 public class Producteur3Acteur implements IActeur {
-	private Journal journal_periode;
+	private Journal journal_periode; 
 	protected int cryptogramme;
-	protected HashMap<Feve,Variable> stock;
-	
+	protected HashMap<Feve,Variable> stockFeve; // Dictionnaire des stocks de fèves 
+	protected Variable totalStock; // Quantité de stock total toutes fèves confondues
 
 	public Producteur3Acteur() {
 		this.journal_periode = new Journal("Journal des périodes", this);
-		this.stock = new HashMap<Feve, Variable>();
+		this.stockFeve = new HashMap<Feve, Variable>();
+		this.totalStock = new VariableReadOnly("Eq3 StockTotalFeve", "<html>Quantite totale de feve en stock</html>",this, 0.0);
 		for (Feve f : Feve.values()) {
-    		this.stock.put(f, new VariableReadOnly(this + " Stock " + f, this, 0.0));
+    		this.stockFeve.put(f, new VariableReadOnly(this + " Stock " + f, this, 0.0));
+			this.totalStock.ajouter(this,this.stockFeve.get(f).getValeur(),cryptogramme);
 		}
+		
 		
 	}
 	
@@ -46,9 +50,6 @@ public class Producteur3Acteur implements IActeur {
 	public void next() {
 		// défi 1 
 		this.journal_periode.ajouter("période : "+ Filiere.LA_FILIERE.getEtape());
-		//défi 2
-		double totalStock=0.0;
-
 	}
 
 	public Color getColor() {// NE PAS MODIFIER
@@ -62,6 +63,7 @@ public class Producteur3Acteur implements IActeur {
 	// Renvoie les indicateurs
 	public List<Variable> getIndicateurs() {
 		List<Variable> res = new ArrayList<Variable>();
+		res.add(this.totalStock);
 		return res;
 	}
 
@@ -74,6 +76,7 @@ public class Producteur3Acteur implements IActeur {
 	// Renvoie les journaux
 	public List<Journal> getJournaux() {
 		List<Journal> res=new ArrayList<Journal>();
+		res.addAll(this.stockFeve.values());
 		res.add(this.journal_periode);
 		return res;
 	}
