@@ -160,13 +160,36 @@ public class Transformateur1Stock {
         else if (f.getGamme()==Gamme.HQ && f.isEquitable()){
             this.setStockFevesHQE(QuantiteEnT);
         }
-       else if (f.getGamme()==Gamme.HQ){
+        else {
         this.setStockFevesHQ(QuantiteEnT);
-       }
+        }
     
 
-       }
+        }
+    /**@author Safta Yassine */
+    public double getStockFeve(Feve f){
+        if (f.getGamme()==Gamme.BQ && f.isEquitable()){
+            return this.getStocksFevesBQE();
+        }
+        else if (f.getGamme()==Gamme.BQ){
+            return this.getStocksFevesBQ();
+        }
+        else if (f.getGamme()==Gamme.MQ && f.isEquitable()){
+        return this.getStocksFevesMQE();
+        }
+        else if (f.getGamme()==Gamme.MQ){
+            return this.getStocksFevesMQ();
+        }
+        else if (f.getGamme()==Gamme.HQ && f.isEquitable()){
+            return this.getStocksFevesHQE();
+        }
+        else {
+            return this.getStocksFevesHQ();
+        }
+    
 
-}
+        }
+    }
+
 
 

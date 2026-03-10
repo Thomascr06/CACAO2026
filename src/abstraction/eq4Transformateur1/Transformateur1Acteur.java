@@ -53,9 +53,9 @@ public class Transformateur1Acteur implements IActeur {
 	public String getDescription() {
 		return "Bla bla bla";
 	}
-
+/**@author Safta Yassine */
 	public Transformateur1Stock getStock(){
-		return this.getStock();
+		return this.stock;
 	}
 
 	/**@author Ewan Lefort */
