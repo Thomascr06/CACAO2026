@@ -14,19 +14,18 @@ import abstraction.eqXRomu.produits.IProduit;
 import abstraction.eqXRomu.bourseCacao.IVendeurBourse;
 
 public class Producteur2Acteur implements IActeur, IVendeurBourse {
-	
+	/** @author Thomas */
 	protected int cryptogramme;
 	protected Variable stockTotal;
 	protected HashMap<Feve, Variable> stocks;
 	private int numero = 0;
 	protected Journal journal = new Journal("Journal Eq2", this);
-	protected Journal JournalBanque;
+	protected Journal JournalBanque  = new Journal("Journal Banque Eq2", this);;
 	protected List<Plantation> plantations;
 
 	/** @author Thomas */
 	public Producteur2Acteur() {
 
-		this.JournalBanque = new Journal("Journal Banque Eq2", this);
 		this.stocks = new HashMap<Feve, Variable>();
 		for (Feve f : Feve.values()) {
 			this.stocks.put(f, new Variable("Stock " + f, this, 0.0));
@@ -35,14 +34,9 @@ public class Producteur2Acteur implements IActeur, IVendeurBourse {
 		this.plantations = new ArrayList<Plantation>();
 	}
 	
+	/** @author Thomas */
 	public void initialiser() {
-    // Les stocks seront produits par les plantations - pas d'initialisation manuelle
-    
-    // Initialisation des plantations : 1 million d'hectares
-    // 50% MQ = 500,000 ha
-    // 30% HQ = 300,000 ha
-    // 20% BQ = 200,000 ha
-    int ageMature = 72; // 3 ans = plantations matures et productives
+    int ageMature = 72; 
     
     this.plantations.add(new Plantation(Feve.F_MQ, 500000, ageMature));
     this.plantations.add(new Plantation(Feve.F_HQ, 300000, ageMature));
@@ -124,9 +118,11 @@ public class Producteur2Acteur implements IActeur, IVendeurBourse {
 	}
 
 	// Renvoie les journaux
+	/** @author Thomas */
 	public List<Journal> getJournaux() {
 		List<Journal> res=new ArrayList<Journal>();
 		res.add(this.journal);
+		res.add(this.JournalBanque);
 		return res;
 	}
 
@@ -149,6 +145,7 @@ public class Producteur2Acteur implements IActeur, IVendeurBourse {
 	// Apres chaque operation sur votre compte bancaire, cette
 	// operation est appelee pour vous en informer
 	public void notificationOperationBancaire(double montant) {
+		this.JournalBanque.ajouter("Opération bancaire : " + montant + "€ | Solde actuel : " + this.getSolde() + "€");
 	}
 	
 	// Renvoie le solde actuel de l'acteur
