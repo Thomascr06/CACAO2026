@@ -43,6 +43,7 @@ public class FenetreJournal extends JFrame {
 		this.journal = j;
 
 		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.label = new JLabel();
 		this.label.setText(this.journal.toHtml());
 		this.label.addMouseListener(new MouseListener() {
@@ -79,6 +80,8 @@ public class FenetreJournal extends JFrame {
 		JScrollPane sp = new JScrollPane(label);
 		this.add(sp, BorderLayout.CENTER);
 		this.setSize(new Dimension(800,600));
+		this.setLocationRelativeTo(null);
+		this.setVisible(false);
 		this.addWindowListener(new WindowAdapter() {public void windowClosing(WindowEvent e) {
 			FenetreJournal gg = (FenetreJournal)(e.getSource());
 			gg.setVisible(false);
