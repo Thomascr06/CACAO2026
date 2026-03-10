@@ -2,6 +2,8 @@ package abstraction.eq1Producteur1;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import abstraction.eqXRomu.encheres.Enchere;
 import abstraction.eqXRomu.encheres.IAcheteurAuxEncheres;
 import abstraction.eqXRomu.encheres.MiseAuxEncheres;
 
@@ -22,5 +24,6 @@ public class Producteur1AcheteurBourse extends Producteur1Acteur {//} implements
         
 
     }
+
 
 }
