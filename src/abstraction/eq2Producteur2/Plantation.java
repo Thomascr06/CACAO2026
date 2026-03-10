@@ -66,4 +66,18 @@ public class Plantation {
         }
     }
 
+    /** @author Simon */
+
+    public Feve getTypeFeve() {
+        return typeFeve;
+    } 
+
+    public int getParcelles() {
+        return parcelles;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
 }
