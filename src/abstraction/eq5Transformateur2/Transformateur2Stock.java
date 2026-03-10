@@ -22,11 +22,9 @@ public class Transformateur2Stock extends Transformateur2Acteur{
     
     // Constructeur
 
-    /* Auteur Partie Feve --> Pierre
-    // Auteur Partie Chocolat --> Raphaël
-    */
-
-    // Constructeur 
+    /** @author Pierre
+     * @author Raphaël
+    **/ 
     public Transformateur2Stock(){
         this.stock_feve = new HashMap<Feve, Double>();
         this.stock_feve.put(Feve.F_BQ, 0.0);
@@ -60,33 +58,33 @@ public class Transformateur2Stock extends Transformateur2Acteur{
 
     /** @author Pierre
     **/
-    public void add_feve(Double n, Feve Q){
+    public void add_feve(Double n, Feve q){
         assert n >= 0;
-        this.stock_feve.put(Q, this.stock_feve.get(Q) + n);
+        this.stock_feve.put(q, this.stock_feve.get(q) + n);
     }
 
     /** @author Pierre
     **/
-    public void remove_feve(Double n, Feve Q){
+    public void remove_feve(Double n, Feve q){
         assert n <= 0;
-        if (n <= this.stock_feve.get(Q)){
-            this.stock_feve.put(Q, this.stock_feve.get(Q) - n);
+        if (n <= this.stock_feve.get(q)){
+            this.stock_feve.put(q, this.stock_feve.get(q) - n);
         }
     }
 
     /** @author Raphaël
     **/
-    public void add_chocolat(Double n, Chocolat Q){
+    public void add_chocolat(Double n, Chocolat q){
         assert n >= 0;
-        this.stock_chocolat.put(Q, this.stock_chocolat.get(Q) + n);
+        this.stock_chocolat.put(q, this.stock_chocolat.get(q) + n);
     }
 
     /** @author Raphaël
     **/
-    public void remove_chocolat(Double n, Chocolat Q){
+    public void remove_chocolat(Double n, Chocolat q){
         assert n <= 0;
-        if (n <= this.stock_chocolat.get(Q)){
-            this.stock_chocolat.put(Q, this.stock_chocolat.get(Q) - n); 
+        if (n <= this.stock_chocolat.get(q)){
+            this.stock_chocolat.put(q, this.stock_chocolat.get(q) - n); 
             }
     }
 
