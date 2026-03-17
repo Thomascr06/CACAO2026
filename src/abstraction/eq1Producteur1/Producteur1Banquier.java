@@ -1,5 +1,8 @@
 package abstraction.eq1Producteur1;
 
+/**
+ * @author Théophile Trillat
+ */
 public class Producteur1Banquier extends Producteur1Acteur{
     
     private double solde = 0;
