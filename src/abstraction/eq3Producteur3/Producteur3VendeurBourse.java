@@ -5,9 +5,9 @@ import abstraction.eqXRomu.produits.Feve;
 import abstraction.eqXRomu.produits.Gamme;
 
 public class Producteur3VendeurBourse extends Producteur3Acteur implements IVendeurBourse {
+/** @author Victor Vannier-Moreau */
 
     public Producteur3VendeurBourse() {
-		/** @author Victor Vannier-Moreau */
 		super();
 	}
 
