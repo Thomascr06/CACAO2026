@@ -71,7 +71,7 @@ public class Distributeur2Acteur implements IActeur {
 		}
 	}
 		/** @author Anass Ouisrani*/ 
-	private double getStockTotal() {
+	protected double getStockTotal() {
 		double total = 0.0;
 		for (double q : stock.values()) {
 			total += q;
