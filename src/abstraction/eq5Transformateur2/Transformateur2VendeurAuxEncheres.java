@@ -16,7 +16,6 @@ import abstraction.eqXRomu.produits.Chocolat;
  * @author Maxence
  */
 public class Transformateur2VendeurAuxEncheres extends Transformateur2AcheteurBourse implements IVendeurAuxEncheres{
-    private SuperviseurVentesAuxEncheres superviseur =(SuperviseurVentesAuxEncheres)(Filiere.LA_FILIERE.getActeur("Sup.Encheres"));
 
     public Transformateur2VendeurAuxEncheres() {
         super();

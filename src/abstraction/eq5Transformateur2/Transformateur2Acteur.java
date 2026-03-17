@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.Integer;
 
+import abstraction.eqXRomu.encheres.SuperviseurVentesAuxEncheres;
 import abstraction.eqXRomu.filiere.Filiere;
 import abstraction.eqXRomu.filiere.IActeur;
 import abstraction.eqXRomu.general.Journal;
@@ -16,6 +17,7 @@ public class Transformateur2Acteur implements IActeur {
 	protected int cryptogramme;
 	private List<Journal> Journaux;
 	public static Double prix_MP;
+	protected SuperviseurVentesAuxEncheres superviseur;
 
 	/** @author Pierre
     **/
@@ -31,6 +33,8 @@ public class Transformateur2Acteur implements IActeur {
 	}
 	
 	public void initialiser() {
+		superviseur =(SuperviseurVentesAuxEncheres)(Filiere.LA_FILIERE.getActeur("Sup.Encheres"));
+
 	}
 
 	public String getNom() {// NE PAS MODIFIER
