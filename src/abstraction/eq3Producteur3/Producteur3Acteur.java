@@ -22,7 +22,7 @@ public class Producteur3Acteur implements IActeur {
 
 	public Producteur3Acteur() {
 		/** @author Vassili Spiridonov */
-		this.journal_periode = new Journal("Journal des périodes", this); 
+		this.journal_periode = new Journal("Journal des périodes EQ3", this); 
 
 
 		/** @author Guillaume Leroy */

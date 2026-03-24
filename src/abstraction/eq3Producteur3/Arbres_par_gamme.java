@@ -30,6 +30,7 @@ public class Arbres_par_gamme {
     }
 
     public int getNbHectare(){
+        /** @author Victor Vannier-Moreau*/
         return this.nbHectareTotal;
     }
 
