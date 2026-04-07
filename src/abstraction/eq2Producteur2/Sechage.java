@@ -43,4 +43,22 @@ public class Sechage extends Récolte {
             }
         }
     }
+
+    
+    public double getFevesSeches(Feve f) {
+        return fevesSeches.get(f);
+    }
+
+    public void next() {
+        super.next();
+        ajouterAuSechage();
+        mettreAJourSechage();
+    }
+
+    public List<Journal> getJournaux() {
+        List<Journal> res = super.getJournaux();
+        res.add(journalSechage);
+        return res;
+    }
+
 }
