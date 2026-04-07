@@ -10,7 +10,7 @@ import abstraction.eqXRomu.produits.Feve;
 import abstraction.eqXRomu.produits.IProduit;
 
 /** @author Thomas */
-public class Producteur2Stock extends Sechage{
+public class Producteur2Stock {
 
     protected Variable stockTotal;
     protected HashMap<Feve, HashMap<Integer, Double>> stock;
@@ -22,7 +22,6 @@ public class Producteur2Stock extends Sechage{
     protected double cout_stockage = 7.5;
 
     public Producteur2Stock() {
-        super();
         this.stock = new HashMap<Feve, HashMap<Integer, Double>>();
         this.stock_initial = new HashMap<Feve, Double>();
         this.stockvar = new HashMap<Feve, Variable>();
@@ -37,7 +36,6 @@ public class Producteur2Stock extends Sechage{
             this.prodParStep.put(f, 0.0);
         }
 
-<<<<<<< HEAD
         this.stock_initial.put(Feve.F_BQ, 5000.0);
         this.stock_initial.put(Feve.F_MQ, 4000.0);
         this.stock_initial.put(Feve.F_HQ, 1200.0);
@@ -48,12 +46,6 @@ public class Producteur2Stock extends Sechage{
         this.prodParStep.put(Feve.F_HQ, 80.0);
         this.prodParStep.put(Feve.F_HQ_E, 0.0);
 
-=======
-        this.stock_initial.put(Feve.F_BQ, 1000.0);
-        this.stock_initial.put(Feve.F_MQ, 1000.0);
-        this.stock_initial.put(Feve.F_HQ, 1000.0);
-        
->>>>>>> 10664a0cd0e02004cbb3970a9a1eb20a2b16e775
         for (Feve f : Feve.values()) {
             this.stockvar.get(f).setValeur(null, this.stock_initial.get(f));
         }
@@ -67,7 +59,6 @@ public class Producteur2Stock extends Sechage{
 
 
     public void next() {
-        super.next();
         setStockMin(0.1);
         prodParStep();
         TaxeStockage();
