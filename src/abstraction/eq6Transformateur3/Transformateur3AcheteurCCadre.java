@@ -89,9 +89,9 @@ public class Transformateur3AcheteurCCadre extends Transformateur3AcheteurBourse
 	}
 
 	public List<Journal> getJournaux() {
-        List<Journal> res=new ArrayList<Journal>();
-		res.add(this.journalCC);
-		return res;
+    List<Journal> res = new ArrayList<Journal>(super.getJournaux());
+    res.add(this.journalCC);
+    return res;
 	}
 
 	public boolean achete(IProduit produit) {

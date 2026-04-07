@@ -34,6 +34,4 @@ public class Transformateur3VendeurAuxEncheres extends Transformateur3VendeurCCa
         super.next();
         this.journalEncheres.ajouter("Etape "+Filiere.LA_FILIERE.getEtape());
     }
-
-    public void 
 }
