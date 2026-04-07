@@ -16,6 +16,9 @@ import abstraction.eqXRomu.filiere.Filiere;
 import abstraction.eqXRomu.general.Journal;
 import abstraction.eqXRomu.produits.Feve;
 import abstraction.eqXRomu.produits.IProduit;
+
+
+//*@author: Pol Bailleul */
 public class Transformateur3AcheteurCCadre extends Transformateur3AcheteurBourse implements IAcheteurContratCadre {
     private SuperviseurVentesContratCadre supCC;
 	protected List<ExemplaireContratCadre> contratsEnCours;
@@ -90,11 +93,11 @@ public class Transformateur3AcheteurCCadre extends Transformateur3AcheteurBourse
 		return res;
 	}
 
-    public List<Journal> getJournaux() {
-        List<Journal> res = super.getJournaux();
-        res.add(this.journalCC);
-        return res;
-    }
+	public List<Journal> getJournaux() {
+    List<Journal> res = new ArrayList<Journal>(super.getJournaux());
+    res.add(this.journalCC);
+    return res;
+	}
 
 	public boolean achete(IProduit produit) {
 		if (!produit.getType().equals("Feve")) {
