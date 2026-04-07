@@ -1,3 +1,6 @@
+/**@author Ewan Lefort */
+
+
 package abstraction.eq4Transformateur1;
 
 import java.awt.Color;
@@ -10,17 +13,20 @@ import abstraction.eqXRomu.general.Journal;
 import abstraction.eqXRomu.general.Variable;
 import abstraction.eqXRomu.produits.IProduit;
 
-public class Transformateur1Acteur implements IActeur {
-	
-	private Journal journal= new Journal("numéro de l'étape",this );
 
+public class Transformateur1Acteur implements IActeur {
+	private Journal journal= new Journal("numéro de l'étape",this );
 	protected int cryptogramme;
+		
 
 	public Transformateur1Acteur() {
 	}
-	
-	public void initialiser() {
+	public void initialiser() 
+	{
+		
 	}
+
+	
 
 	public String getNom() {// NE PAS MODIFIER
 		return "EQ4";
@@ -33,10 +39,11 @@ public class Transformateur1Acteur implements IActeur {
 	////////////////////////////////////////////////////////
 	//         En lien avec l'interface graphique         //
 	////////////////////////////////////////////////////////
-
 	public void next() {
 		if (Filiere.LA_FILIERE.getEtape()>=0){
-		journal.ajouter("etape:"+Filiere.LA_FILIERE.getEtape());}
+			int etape= Filiere.LA_FILIERE.getEtape();
+		journal.ajouter("etape:"+etape);
+	}
 	}
 
 	public Color getColor() {// NE PAS MODIFIER
@@ -47,9 +54,10 @@ public class Transformateur1Acteur implements IActeur {
 		return "Bla bla bla";
 	}
 
-	// Renvoie les indicateurs
+	// Renvoie les indicateurs.
 	public List<Variable> getIndicateurs() {
 		List<Variable> res = new ArrayList<Variable>();
+		
 		return res;
 	}
 
@@ -58,8 +66,7 @@ public class Transformateur1Acteur implements IActeur {
 		List<Variable> res=new ArrayList<Variable>();
 		return res;
 	}
-
-	// Renvoie les journaux
+	// Renvoie les journaux.
 	public List<Journal> getJournaux() {
 		List<Journal> res=new ArrayList<Journal>();
 		res.add(journal);
