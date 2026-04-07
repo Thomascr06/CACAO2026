@@ -12,6 +12,8 @@ public class Producteur1Planteur extends Producteur1Stock{
 
     private List<Plantation> plantations = new ArrayList<Plantation>();
     private double taille_totale=10000;
+    private double tailleEq;
+    private double tailleNonEq;
 
     /**
      * @author Théophile Trillat
@@ -27,8 +29,18 @@ public class Producteur1Planteur extends Producteur1Stock{
     /**
      * @author Elise Dossal
      */
-    public double getTaille(){
+    public double getTaillePlantation(){
         return this. taille_totale;
+    }
+
+    public double getTaillePlantation(Boolean eq){
+        if(eq){
+            return this.tailleEq;
+        }
+
+        else{
+            return this.tailleNonEq;
+        }
     }
 
     /**
@@ -37,13 +49,33 @@ public class Producteur1Planteur extends Producteur1Stock{
     public void planter(Feve f, double taille){
         Plantation newP = new Plantation(f, taille , Filiere.LA_FILIERE.getEtape());
         this.plantations.add(newP);
+        if(f.isEquitable()){
+            this.tailleEq += taille;
+        }
+
+        else{
+            this.tailleNonEq += taille;
+        }
+
+        // BQ 1800/h    MQ 3500/h    HQ 7000/h
     }
 
     /**
      * @author Elise Dossal
      */
     public void couper(int i){
+        double taille = this.plantations.get(i).getTaille();
+        Feve f = this.plantations.get(i).getGamme();
         this.plantations.remove(i);
+        if(f.isEquitable()){
+            this.tailleEq -= taille;
+        }
+
+        else{
+            this.tailleNonEq -= taille;
+        }
+
+        this.taille_totale -= taille;
     }
 
     /**
