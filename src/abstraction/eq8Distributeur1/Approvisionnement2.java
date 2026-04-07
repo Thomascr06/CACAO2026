@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import abstraction.eqXRomu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eqXRomu.filiere.Filiere;
 import abstraction.eqXRomu.produits.ChocolatDeMarque;
 import abstraction.eqXRomu.produits.Gamme;
@@ -18,6 +19,7 @@ public class Approvisionnement2 extends Distributeur1Acteur {
     protected Map<ChocolatDeMarque, Double> prixDAchat;
     private Map<ChocolatDeMarque, Double> stockPredit;
     private Map<String, List<ChocolatDeMarque>> classements;
+    protected List<ExemplaireContratCadre> mesContrats;
 
     public Approvisionnement2() {
         super(); // Appelle le constructeur de Distributeur1Acteur
@@ -29,6 +31,7 @@ public class Approvisionnement2 extends Distributeur1Acteur {
         this.classements.put("MQ_EQUITABLE", new ArrayList<>());
         this.classements.put("HQ", new ArrayList<>());
         this.classements.put("HQ_EQUITABLE", new ArrayList<>());
+        this.mesContrats = new ArrayList<>();
     }
 
     /**
@@ -154,12 +157,25 @@ public class Approvisionnement2 extends Distributeur1Acteur {
      */
     private Map<ChocolatDeMarque, Double> initialiserStockPredit() {
         Map<ChocolatDeMarque, Double> predit = new HashMap<>();
-        // this.Stock est hérité de Distributeur1Acteur
+        int etapeActuelle = Filiere.LA_FILIERE.getEtape();
+
+        // 1. On ajoute le stock physique actuel
         for (IProduit p : this.Stock.keySet()) {
             if (p instanceof ChocolatDeMarque) {
                 predit.put((ChocolatDeMarque)p, this.Stock.get(p));
             }
         }
-        return predit;
+
+    // 2 . On ajoute les livraisons prévues pour CE tour par les anciens contrats
+    for (ExemplaireContratCadre contrat : this.mesContrats) {
+        IProduit p = contrat.getProduit();
+        if (p instanceof ChocolatDeMarque) {
+            ChocolatDeMarque cdm = (ChocolatDeMarque) p;
+            double quantiteAttendue = contrat.getEcheancier().getQuantite(etapeActuelle);
+            double stockActuel = predit.getOrDefault(cdm, 0.0);
+            predit.put(cdm, stockActuel + quantiteAttendue);
+        }
     }
+    return predit;
+}
 }

@@ -24,8 +24,6 @@ public class ContratCadre2 extends Approvisionnement2 implements IAcheteurContra
     // Flag d'initiative (géré dans le next() d'Approvisionnement2)
     protected boolean lancement_CC;
 
-    protected List<ExemplaireContratCadre> mesContrats;
-
     public ContratCadre2() {
         super();
         this.mesContrats = new ArrayList<>();
