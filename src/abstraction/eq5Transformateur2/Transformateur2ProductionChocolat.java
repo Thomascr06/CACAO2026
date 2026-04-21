@@ -53,6 +53,8 @@ public class Transformateur2ProductionChocolat extends Transformateur2Production
             }
         }
     }
+
+
     /**@author Maxence 
      * Notre Chocolat HQ a 100% de cacao, dont 49% de fèves HQ et 51% de fèves MQ
     */
@@ -62,7 +64,8 @@ public class Transformateur2ProductionChocolat extends Transformateur2Production
         if((quantiteFeveHQ<=this.getStock_chocolat(Chocolat.C_HQ)) && (quantiteFeveMQ<=this.getStock_chocolat(Chocolat.C_MQ))){
             this.remove_feve(quantiteFeveHQ,Feve.F_HQ);
             this.remove_feve(quantiteFeveMQ,Feve.F_MQ);
-            this.add_chocolatDeMarque("FerraraHQ",quantite);
+            ChocolatDeMarque chocoHQ = new ChocolatDeMarque(Chocolat.C_HQ, "Ferrara Rocher", 100);
+            this.add_chocolatDeMarque(chocoHQ, quantite);
         }
     }
 /** @author Maxence
@@ -74,7 +77,8 @@ public class Transformateur2ProductionChocolat extends Transformateur2Production
         if((quantiteFeveMQ<=this.getStock_chocolat(Chocolat.C_MQ)) && (quantiteFeveBQ<=this.getStock_chocolat(Chocolat.C_BQ))){
             this.remove_feve(quantiteFeveMQ,Feve.F_MQ);
             this.remove_feve(quantiteFeveBQ,Feve.F_BQ);
-            this.add_chocolatDeMarque("FerraraMQ",quantite);
+            ChocolatDeMarque chocoMQ = new ChocolatDeMarque(Chocolat.C_MQ, "Ferrara Rocher", 100);
+            this.add_chocolatDeMarque(chocoMQ, quantite);       
         }
     }
 /** @author Maxence
@@ -84,9 +88,12 @@ public class Transformateur2ProductionChocolat extends Transformateur2Production
         Double quantiteFeveBQ=quantite*0.45;
         Double quantiteMP=quantite*0.65;
         if(quantiteFeveBQ<=this.getStock_chocolat(Chocolat.C_BQ)){
-            this.remove_feve(quantiteFeveBQ,Feve.F_BQ);
-            this.add_chocolatDeMarque("FerraraBQ",quantite);
+            ChocolatDeMarque chocoBQ = new ChocolatDeMarque(Chocolat.C_BQ, "Ferrara Rocher", 100);
+            this.add_chocolatDeMarque(chocoBQ, quantite);
         }
-        Filiere.LA_FILIERE.getBanque().payerCout(this, cryptogramme, "Achat de MP pour production de chocolat FerraraBQ", quantiteMP*prix_MP);
+        // J'ai ajouté une petite sécurité ici pour éviter un crash si prix_MP n'est pas initialisé
+        if (prix_MP != null) {
+            Filiere.LA_FILIERE.getBanque().payerCout(this, cryptogramme, "Achat de MP pour production de chocolat FerraraBQ", quantiteMP*prix_MP);
+        }
     }
 }
