@@ -267,6 +267,46 @@ public class Distributeur2Acteur implements IActeur, IDistributeurChocolatDeMarq
         if (crypto != this.cryptogramme) return;
         this.journal.ajouter("RUPTURE STOCK : " + choco.getNom() + " - Rayon vide ! Augmenter les achats.");
     }
+    /**
+ * Ajuste les prix de vente en fonction du prix moyen du marché
+ * - Si on est moins cher que le marché : on remonte pour augmenter la marge
+ * - Si on est plus cher que le marché : on baisse pour rester compétitif
+ * @author Anass Ouisrani
+ */
+protected void ajusterPrix() {
+    int etape = Filiere.LA_FILIERE.getEtape();
+    if (etape < 1) return; // Pas de référence marché à l'étape 0
+
+    List<ChocolatDeMarque> produits = Filiere.LA_FILIERE.getChocolatsProduits();
+    for (ChocolatDeMarque choco : produits) {
+        double prixMoyen = Filiere.LA_FILIERE.prixMoyen(choco, etape - 1);
+        if (prixMoyen <= 0) continue; // Pas de référence disponible
+
+        double prixActuel = prix(choco);
+        double ecart = (prixActuel - prixMoyen) / prixMoyen; // écart relatif en %
+
+        double nouveauPrix;
+        if (ecart < 0) {
+            // On est moins cher que le marché → on remonte de 3% max
+            nouveauPrix = prixActuel * 1.03;
+            // Mais on ne dépasse pas le prix moyen
+            nouveauPrix = Math.min(nouveauPrix, prixMoyen);
+            this.journal.ajouter("Prix " + choco.getNom() + " remonté : "
+                + prixActuel + " → " + nouveauPrix + "€/T");
+        } else if (ecart > 0.05) {
+            // On est plus de 5% plus cher que le marché → on baisse de 3% max
+            nouveauPrix = prixActuel * 0.97;
+            // Mais on ne descend pas en dessous du prix moyen
+            nouveauPrix = Math.max(nouveauPrix, prixMoyen);
+            this.journal.ajouter("Prix " + choco.getNom() + " baissé : "
+                + prixActuel + " → " + nouveauPrix + "€/T");
+        } else {
+            continue; // Ecart inférieur à 5% : on ne touche pas au prix
+        }
+
+        this.prix.put(choco, nouveauPrix);
+    }
+}
 
     /**
      * Analyse du retour sur investissement des labels – V1 .
