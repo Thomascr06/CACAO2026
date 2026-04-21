@@ -11,7 +11,7 @@ import java.util.Map;
 public class Plantation3 {
     // On stocke désormais par Gamme et non plus par Feve précise
     /** @author Vassili Spiridonov*/
-    private Map<Gamme, ArbresParGamme> plantation;
+    public Map<Gamme, ArbresParGamme> plantation;
     private Journal journal;
     
     public Plantation3(Journal journal) {
