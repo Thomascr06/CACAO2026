@@ -22,7 +22,7 @@ public class Transformateur3VendeurAppelDOffre extends Transformateur3VendeurAux
 
     public Transformateur3VendeurAppelDOffre() {
         super();
-        this.journalAO = new Journal(this.getNom() + " journal A.O. eq6", this);
+        this.journalAO = new Journal(this.getNom() + " journal Ventes A.O.", this);
     }
 
     public void initialiser() {

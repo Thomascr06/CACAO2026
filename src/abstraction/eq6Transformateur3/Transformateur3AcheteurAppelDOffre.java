@@ -32,7 +32,7 @@ public class Transformateur3AcheteurAppelDOffre extends Transformateur3VendeurAp
 
 	public Transformateur3AcheteurAppelDOffre() {
 		super();
-		this.journalAOVente = new Journal(" journal Appel d'Offre EQ6", this);
+		this.journalAOVente = new Journal(" journal Achat Appel d'Offre EQ6", this);
 	}
 	public void initialiser() {
 		super.initialiser();
