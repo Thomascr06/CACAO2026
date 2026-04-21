@@ -64,24 +64,20 @@ public class Distributeur2AcheteurAO extends Distributeur2Acteur implements IAch
                 OffreVente offreRetenue = superviseurAO.acheterParAO(this, this.cryptogramme, choco, quantiteAO);
                 
                 if (offreRetenue != null) {
-                    // Vérifier la rentabilité du label
-                    Distributeur2Acteur.AnalyseROILabelV1 analyseur = new Distributeur2Acteur.AnalyseROILabelV1();
-                    double prixVente = prix(choco);
                     double prixAchat = offreRetenue.getPrixT();
-                    double coutCertification = 1000.0; // Coût additionnel de certification (€/T)
-                    double attractivite = 1.15; // Le label améliore légèrement les ventes
-                    
-                    boolean labelRentable = analyseur.acheterLabel(choco, prixAchat, prixVente, coutCertification, attractivite);
-                    
-                    if (!labelRentable) {
-                        this.journal.ajouter("Refus : label non rentable pour " + choco.getNom() + " à " + offreRetenue.getPrixT() + "€/T");
+                    double prixVente = prix(choco);
+
+                    // On vérifie juste que le prix d'achat est inférieur au prix de vente
+                    if (prixAchat >= prixVente) {
+                        this.journal.ajouter("Refus : achat à " + prixAchat 
+                            + "€/T non rentable (vente à " + prixVente + "€/T)");
                         continue;
                     }
-                    
-                    this.journal.ajouter("Achat réussi : " + (quantiteAO/1000) + "t de " + 
-                                       choco.getNom() + " à " + offreRetenue.getPrixT() + "€/T chez " + 
+
+                    this.journal.ajouter("Achat réussi : " + (quantiteAO/1000) + "t de " +
+                                       choco.getNom() + " à " + prixAchat + "€/T chez " +
                                        offreRetenue.getVendeur().getNom());
-                    
+
                     this.stock.put(choco, stockActuel + quantiteAO);
                     this.indicateurStockTotal.setValeur(this, getStockTotal());
                 } else {

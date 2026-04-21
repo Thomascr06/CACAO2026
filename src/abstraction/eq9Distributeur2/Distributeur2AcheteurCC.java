@@ -65,7 +65,12 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
                         + " : +" + (ajout/1000) + "t (stock était " 
                         + (quantiteActuelle/1000) + "t)");
                 }
+                
             }
+            // Frais de stockage : 120 €/T par étape (16x le coût producteur de 7.5€/T)
+            payerFraisStockage();
+            // Ajustement dynamique des prix de vente
+            ajusterPrix();
         }
 
         this.indicateurStockTotal.setValeur(this, getStockTotal());
