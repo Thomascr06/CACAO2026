@@ -54,7 +54,7 @@ public class Transformateur2ProductionChocolat extends Transformateur2Production
     public void ProductionFerraraHQ(Double quantite){
         Double quantiteFeveHQ=quantite*0.49;
         Double quantiteFeveMQ=quantite*0.51;
-        if((quantiteFeveHQ<=this.getStock_chocolat(Chocolat.C_HQ)) && (quantiteFeveMQ<=this.getStock_chocolat(Chocolat.C_MQ))){
+        if((quantiteFeveHQ<=this.getStock_feve(Feve.F_HQ)) && (quantiteFeveMQ<=this.getStock_feve(Feve.F_MQ))){
             this.remove_feve(quantiteFeveHQ,Feve.F_HQ);
             this.remove_feve(quantiteFeveMQ,Feve.F_MQ);
             this.add_chocolatDeMarque("FerraraHQ",quantite);
@@ -66,7 +66,7 @@ public class Transformateur2ProductionChocolat extends Transformateur2Production
     public void ProductionFerraraMQ(Double quantite){
         Double quantiteFeveMQ=quantite*0.26;
         Double quantiteFeveBQ=quantite*0.74;
-        if((quantiteFeveMQ<=this.getStock_chocolat(Chocolat.C_MQ)) && (quantiteFeveBQ<=this.getStock_chocolat(Chocolat.C_BQ))){
+        if((quantiteFeveMQ<=this.getStock_feve(Feve.F_MQ)) && (quantiteFeveBQ<=this.getStock_feve(Feve.F_BQ))){
             this.remove_feve(quantiteFeveMQ,Feve.F_MQ);
             this.remove_feve(quantiteFeveBQ,Feve.F_BQ);
             this.add_chocolatDeMarque("FerraraMQ",quantite);
@@ -78,7 +78,7 @@ public class Transformateur2ProductionChocolat extends Transformateur2Production
     public void ProductionFerraraBQ(Double quantite){
         Double quantiteFeveBQ=quantite*0.45;
         Double quantiteMP=quantite*0.65;
-        if(quantiteFeveBQ<=this.getStock_chocolat(Chocolat.C_BQ)){
+        if(quantiteFeveBQ<=this.getStock_feve(Feve.F_BQ)){
             this.remove_feve(quantiteFeveBQ,Feve.F_BQ);
             this.add_chocolatDeMarque("FerraraBQ",quantite);
         }
