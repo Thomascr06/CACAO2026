@@ -85,7 +85,6 @@ public class Distributeur2AcheteurAO extends Distributeur2Acteur implements IAch
 }
 
 
-    //  Le superviseur donne la liste de toutes les propositions de vente
     @Override
 public OffreVente choisirOV(List<OffreVente> propositions) {
     if (propositions == null || propositions.isEmpty()) return null;

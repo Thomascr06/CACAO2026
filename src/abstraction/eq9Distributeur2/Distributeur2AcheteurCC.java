@@ -59,7 +59,7 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
 
 
     /**
-     * Paie les frais de stockage pour cette étape
+     * frais de stockage pour cette étape
      */
     protected void payerFraisStockage() {
         double stockTotalT = getStockTotal() / 1000.0;
@@ -74,17 +74,11 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
      * Ajuste les prix de vente de manière dynamique
      */
     protected void ajusterPrixDynamiques() {
-        // Placeholder pour ajustement dynamique des prix
-        // À implémenter selon la stratégie de l'équipe
+        // mettre en place en V2
     }
 
     //         IMPLEMENTATION DE L'INTERFACE IAcheteurContratCadre
 
-    /**
-     * Indique si l'acheteur est prêt à faire un contrat cadre pour ce produit
-     * @param produit le produit concerné
-     * @return true si prêt à négocier, false sinon
-     */
     
     @Override
     public double getQuantiteEnStock(IProduit p, int etape) {
@@ -106,11 +100,7 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
         return false;
     }
 
-    /**
-     * Contre-proposition de l'échéancier
-     * @param contrat le contrat en négociation
-     * @return l'échéancier proposé, null pour abandonner, ou le même pour accepter
-     */
+
     @Override
     public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
         Echeancier propositionVendeur = contrat.getEcheancier();
@@ -120,11 +110,11 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
         int nbSteps = propositionVendeur.getNbEcheances();
         double quantiteTotale = propositionVendeur.getQuantiteTotale();
 
-        // Préférences : livraison échelonnée sur plusieurs étapes pour réduire les risques
+        // livraison échelonnée sur plusieurs étapes
         int stepCourant = Filiere.LA_FILIERE.getEtape();
 
-        // Si le début est trop proche ou trop lointain, proposer un ajustement
-        int debutOptimal = stepCourant + 2; // Préférer commencer dans 2 étapes
+        // Ajustement
+        int debutOptimal = stepCourant + 2; // Décalage de 2 étapes
         if (stepDebut < debutOptimal) {
             int decalage = debutOptimal - stepDebut;
             Echeancier contreProposition = new Echeancier(debutOptimal, nbSteps, quantiteTotale / nbSteps);
@@ -139,7 +129,7 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
             return contreProposition;
         }
 
-        // Si la durée est trop courte ou trop longue, ajuster
+        // Ajustement
         if (nbSteps < 3) {
             // Étaler sur plus d'étapes
             int nouvelleDuree = Math.min(6, 24 - stepDebut);
@@ -161,11 +151,7 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
         return propositionVendeur;
     }
 
-    /**
-     * Contre-proposition sur le prix
-     * @param contrat le contrat en négociation
-     * @return le prix proposé, négatif pour abandonner, ou le même pour accepter
-     */
+
     /**
      * @author Anass Ouisrani
      */
@@ -188,12 +174,12 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
             prixPropose 
         );
 
-        // marge minimale que tu veux garder
+        // marge minimale 
         double margeMin = 1.2; // 20%
 
         double prixMax = prixVenteEstime / margeMin;
 
-        // Si le vendeur demande plus que notre maximum → on abandonne la négociation
+        // Si le vendeur demande plus que notre maximum : on abandonne la négociation
         // -1.0 = stop dans le protocole
         if (prixPropose > prixMax) {
             this.journal.ajouter("Abandon négociation CC : prix " + prixPropose
@@ -201,7 +187,7 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
             return -1.0;
         }
 
-        // Évaluer notre situation financière
+        // Situation financière
         double solde = getSolde();
         double quantiteTotale = contrat.getQuantiteTotale() / 1000.0; // en tonnes
         double coutTotalEstime = quantiteTotale * prixPropose;
@@ -275,10 +261,7 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
         }
     }
 
-    /**
-     * Notification de la réussite des négociations
-     * @param contrat le contrat signé
-     */
+
     @Override
     public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
         this.contratsEnCours.add(contrat);
@@ -286,13 +269,6 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
         this.journal.ajouter("Nouveau contrat cadre signé pour " + ((ChocolatDeMarque)contrat.getProduit()).getNom() +
                            " : " + contrat.getQuantiteTotale() + "t à " + contrat.getPrix() + "€/t");
     }
-
-    /**
-     * Réception d'une livraison dans le cadre d'un contrat
-     * @param produit le produit livré
-     * @param quantiteEnTonnes la quantité livrée (en tonnes)
-     * @param contrat le contrat concerné
-     */
 
     @Override
     public void receptionner(IProduit produit, double quantiteEnTonnes, ExemplaireContratCadre contrat) {
@@ -314,11 +290,7 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
     //         MÉTHODES UTILITAIRES
 
     
-    /**
-     * Calcule la quantité restante à livrer pour un produit donné
-     * @param produit le produit
-     * @return la quantité totale restant à livrer (en kg)
-     */
+
     protected double restantDu(IProduit produit) {
         double res = 0.0;
         for (ExemplaireContratCadre contrat : this.contratsEnCours) {
@@ -329,18 +301,12 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
         return res;
     }
 
-    /**
-     * Renvoie la liste des contrats en cours
-     * @return liste des contrats actifs
-     */
+
     public List<ExemplaireContratCadre> getContratsEnCours() {
         return new LinkedList<>(this.contratsEnCours);
     }
 
-    /**
-     * Renvoie la liste des contrats terminés
-     * @return liste des contrats terminés
-     */
+
     public List<ExemplaireContratCadre> getContratsTermines() {
         return new LinkedList<>(this.contratsTermines);
     }
@@ -364,7 +330,7 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
                     continue;
                 }
 
-                // Vérifier les fonds disponibles (estimation prudente)
+                // Vérifier les fonds disponibles
                 double prixEstime = getPrixMaxAcceptable(choco);
                 double coutEstime = (quantiteAcheter / 1000.0) * prixEstime;
                 if (getSolde() < coutEstime * 1.2) { // Marge de sécurité
@@ -389,7 +355,7 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
                     double quantiteParStep = quantiteAcheter / nbSteps;
                     Echeancier echeancierPropose = new Echeancier(stepDebut, nbSteps, quantiteParStep);
 
-                    // Initier la négociation (le résultat sera géré par les méthodes de contre-proposition)
+                    // Initier la négociation
                     ExemplaireContratCadre contrat = this.superviseurCC.demandeAcheteur(
                         this, vendeur, choco, echeancierPropose, this.cryptogramme, false);
 
