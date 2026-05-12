@@ -46,6 +46,9 @@ public class Distributeur2Acteur implements IActeur, IDistributeurChocolatDeMarq
 		this.journalFinancier = new Journal("Journal EQ9 - Finances", this);
 		this.stock = new HashMap<>();
 		this.indicateurStockTotal = new Variable("EQ9_stock_total", this, 0.0);
+		this.indicateurMargeMoyenne = new Variable("EQ9_marge_moyenne", this, 18.0);
+		this.indicateurMixMarquePrivee = new Variable("EQ9_pct_marque_privee", this, 40.0);
+		this.indicateurProfitBrutEtape = new Variable("EQ9_profit_brut", this, 0.0);
 	}
 
 
@@ -61,7 +64,7 @@ public class Distributeur2Acteur implements IActeur, IDistributeurChocolatDeMarq
         if (produits != null && !produits.isEmpty()) {
             for (ChocolatDeMarque choco : produits) {
                 // Stock initial réaliste : 200 tonnes par produit
-                this.stock.put(choco, 200000.0); // 200 tonnes = 200 000 kg
+                this.stock.put(choco, 200.0); // 200 tonnes = 200 000 kg
             }
         }
 
@@ -72,10 +75,9 @@ public class Distributeur2Acteur implements IActeur, IDistributeurChocolatDeMarq
         
         this.strategieFixationPrix = new EQ9_StrategieFixationPrix(journal);
         
-        
-        this.indicateurMargeMoyenne = new Variable("EQ9_marge_moyenne", this, 18.0);
-        this.indicateurMixMarquePrivee = new Variable("EQ9_pct_marque_privee", this, 40.0);
-        this.indicateurProfitBrutEtape = new Variable("EQ9_profit_brut", this, 0.0);
+        this.indicateurMargeMoyenne.setValeur(this, 18.0);
+        this.indicateurMixMarquePrivee.setValeur(this, 40.0);
+        this.indicateurProfitBrutEtape.setValeur(this, 0.0);
 
         journal.ajouter("Initialisation terminée : " + produits.size() + " produits en stock");
     }
