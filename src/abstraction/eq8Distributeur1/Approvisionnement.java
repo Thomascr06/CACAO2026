@@ -38,12 +38,12 @@ public class Approvisionnement extends Distributeur1Acteur {
         this.stockPredit = new HashMap<>();
 
         // Initialisation des pourcentages de répartition (Total = 1.0)
-        this.pourcentBQ = 0.15;   // 15% Bas de gamme standard
-        this.pourcentBQ_E = 0.05; // 5%  Bas de gamme équitable
-        this.pourcentMQ = 0.35;   // 35% Milieu de gamme standard
-        this.pourcentMQ_E = 0.15; // 15% Milieu de gamme équitable
+        this.pourcentBQ = 0.30;   // 30% Bas de gamme standard
+        this.pourcentBQ_E = 0.1166; // 11.66%  Bas de gamme équitable
+        this.pourcentMQ = 0.2166;   // 21.66% Milieu de gamme standard
+        this.pourcentMQ_E = 0.0633; // 6.33% Milieu de gamme équitable
         this.pourcentHQ = 0.20;   // 20% Haut de gamme standard
-        this.pourcentHQ_E = 0.10; // 10% Haut de gamme équitable
+        this.pourcentHQ_E = 0.1033; // 10.33% Haut de gamme équitable
     }
 
     /**
