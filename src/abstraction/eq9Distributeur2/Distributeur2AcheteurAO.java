@@ -23,7 +23,9 @@ public class Distributeur2AcheteurAO extends Distributeur2Acteur implements IAch
         abstraction.eqXRomu.produits.Gamme.MQ, 8,
         abstraction.eqXRomu.produits.Gamme.BQ, 6
     ); // Étapes avant péremption
-
+public Distributeur2AcheteurAO(){
+    super();
+}
     //  recherche
 
     protected double restantDu(abstraction.eqXRomu.produits.IProduit produit){
