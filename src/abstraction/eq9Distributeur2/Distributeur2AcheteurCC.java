@@ -154,6 +154,7 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
 
     /**
      * @author Anass Ouisrani
+     * @author Paul Juhel (pour correctifs)
      */
     @Override
     public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
@@ -202,56 +203,81 @@ public class Distributeur2AcheteurCC extends Distributeur2AcheteurAO implements 
         // Si on a une référence marché valide
         if (!Double.isNaN(prixMoyen) && prixMoyen > 0) {
 
-            // Ajuster notre contre-proposition selon la situation
-            double contreProposition = prixPropose * 0.95; // Base : 5% de réduction
+            double prixSeuilBas = Math.max(prixMax * 0.70, prixMoyen * 0.70);
+            prixSeuilBas = Math.min(prixSeuilBas, prixMax);
 
-            // Si le prix proposé est déjà attractif par rapport au marché, accepter
-            if (prixPropose <= prixMoyen * 1.05) {
+            double prixCompromis = Math.max(prixPropose * 0.80, prixSeuilBas);
+            prixCompromis = Math.min(prixCompromis, prixMax);
+
+            if (prixPropose <= prixCompromis) {
                 this.journalCC.ajouter("Acceptation CC : prix attractif " + prixPropose + "€/T (marché=" + prixMoyen + ")");
                 return prixPropose;
             }
 
-            // Réduire davantage si nécessaire
-            if (prixPropose > prixMoyen * 1.15) {
-                contreProposition = Math.max(contreProposition * 0.95, prixMoyen * 1.08);
+            double prixInitial = contrat.getListePrix().get(0);
+            int tourNegociation = contrat.getListePrix().size() / 2;
+            double ratio = 0.70;
+            for (int i = 0; i < tourNegociation && ratio < 0.80; i++) {
+                ratio += 0.05;
+            }
+            if (ratio > 0.80) {
+                ratio = 0.80;
             }
 
-            // Mais jamais en dessous de 95% du prix moyen marché
-            contreProposition = Math.max(contreProposition, prixMoyen * 0.95);
+            double contreProposition = prixInitial * ratio;
+            if (contreProposition < prixSeuilBas) {
+                contreProposition = prixSeuilBas;
+            }
+            if (contreProposition > prixMax) {
+                contreProposition = prixMax;
+            }
 
-            // Si notre contre-proposition est proche du prix demandé, accepter directement
             if (contreProposition >= prixPropose * 0.98) {
                 this.journalCC.ajouter("Acceptation CC : " + prixPropose + "€/T pour " + choco.getNom());
                 return prixPropose;
             }
 
-            // Vérifier qu'on peut payer
             double coutContreProposition = quantiteTotale * contreProposition;
             if (solde < coutContreProposition * margeSecurite) {
-                // Fonds insuffisants, abandonner
                 this.journalCC.ajouter("Abandon CC : fonds insuffisants pour " + coutContreProposition
                     + "€ (solde=" + solde + "€)");
                 return -1.0;
             }
 
-            // On envoie notre contre-proposition
             this.journalCC.ajouter("Contre-proposition CC : " + contreProposition
-                + "€/T (proposé=" + prixPropose + ", marché=" + prixMoyen + ")");
-
+                + "€/T (proposé=" + prixPropose + ", marché=" + prixMoyen + ", seuil bas=" + prixSeuilBas + ", compromis=" + prixCompromis + ")");
             return contreProposition;
         }
 
         // Pas de référence marché disponible
-        // Accepter si le prix est raisonnable par rapport à notre maximum
-        if (prixPropose <= prixMax * 0.9) {
+        double prixSeuilBas = Math.max(prixMax * 0.70, prixPropose * 0.70);
+        double prixCompromis = Math.max(prixPropose * 0.80, prixSeuilBas);
+        prixCompromis = Math.min(prixCompromis, prixMax);
+
+        if (prixPropose <= prixCompromis) {
             this.journalCC.ajouter("Acceptation CC (pas de ref marché) : " + prixPropose + "€/T");
             return prixPropose;
         }
 
-        // Faire une contre-proposition modérée
-        double contreProposition = Math.max(prixPropose * 0.97, prixMax * 0.85);
-        double coutContreProposition = quantiteTotale * contreProposition;
+        double prixInitial = contrat.getListePrix().get(0);
+        int tourNegociation = contrat.getListePrix().size() / 2;
+        double ratio = 0.70;
+        for (int i = 0; i < tourNegociation && ratio < 0.80; i++) {
+            ratio += 0.05;
+        }
+        if (ratio > 0.80) {
+            ratio = 0.80;
+        }
 
+        double contreProposition = prixInitial * ratio;
+        if (contreProposition < prixSeuilBas) {
+            contreProposition = prixSeuilBas;
+        }
+        if (contreProposition > prixMax) {
+            contreProposition = prixMax;
+        }
+
+        double coutContreProposition = quantiteTotale * contreProposition;
         if (solde >= coutContreProposition * margeSecurite) {
             this.journalCC.ajouter("Contre-proposition CC (pas de ref) : " + contreProposition + "€/T");
             return contreProposition;
