@@ -14,7 +14,7 @@ import abstraction.eqXRomu.produits.Gamme;
 import abstraction.eqXRomu.produits.IProduit;
 
 /** @author Ewen Landron */
-public class Approvisionnement extends Distributeur1Acteur {
+public class Approvisionnement extends ChocolatDistributeur1 {
 
     protected Map<ChocolatDeMarque, Double> prixDAchat;
     private Map<ChocolatDeMarque, Double> stockPredit;
