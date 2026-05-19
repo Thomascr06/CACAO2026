@@ -43,7 +43,7 @@ public class Plantation {
                 this.prix_vente = 1200 ;
                 this.prix_replantation = 1000 ; // 1 euro par plant
                 this.salaire_employe = 30 ; // RÉDUIT pour la rentabilité
-                this.stock_max = 100000 ; // Autorise la replantation jusqu'à 100,000 tonnes de stock
+                this.stock_max = 200000 ; // Autorise la replantation jusqu'à 100,000 tonnes de stock
                 break;
  
             case F_MQ:
@@ -54,7 +54,7 @@ public class Plantation {
                 this.prix_vente = 1500 ;
                 this.prix_replantation = 1500 ; // 1.5 euro par plant
                 this.salaire_employe = 30 ; // RÉDUIT pour la rentabilité
-                this.stock_max = 100000 ; 
+                this.stock_max = 150000 ; 
                 break;
 
             case F_HQ:
@@ -65,7 +65,7 @@ public class Plantation {
                 this.prix_vente = 1800 ;
                 this.prix_replantation = 1750 ; // 1.75 euro par plant
                 this.salaire_employe = 30 ; // RÉDUIT pour la rentabilité
-                this.stock_max = 100000 ; 
+                this.stock_max = 200000 ; 
                 break;
 
             case F_HQ_E:
@@ -76,7 +76,7 @@ public class Plantation {
                 this.prix_vente = 1800 ;
                 this.prix_replantation = 2000 ; // 2 euro par plant
                 this.salaire_employe = 60 ; // RÉDUIT pour la rentabilité
-                this.stock_max = 50000 ; 
+                this.stock_max = 100000 ; 
                 break;
             
             default:
